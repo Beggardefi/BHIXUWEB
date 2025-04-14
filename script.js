@@ -1,172 +1,131 @@
-// --- Countdown Timer ---
-const countdownEl = document.getElementById("countdown");
-const presaleEndDate = new Date("2025-06-30T23:59:59").getTime();
-const countdownTimer = setInterval(() => {
-  const now = new Date().getTime();
-  const distance = presaleEndDate - now;
+// ==== Wallet Connection ====
+let userAddress = "";
 
-  if (distance < 0) {
-    clearInterval(countdownTimer);
-    countdownEl.innerHTML = "Presale Ended";
+async function connectWallet() {
+  if (window.ethereum) {
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      userAddress = accounts[0];
+      document.getElementById('wallet-address').innerText = `Connected: ${shortAddress(userAddress)}`;
+    } catch (err) {
+      alert("Wallet connection denied.");
+    }
+  } else {
+    alert("Please install MetaMask or Trust Wallet.");
+  }
+}
+
+function shortAddress(addr) {
+  return addr.slice(0, 6) + "..." + addr.slice(-4);
+}
+
+document.getElementById("connect-wallet").addEventListener("click", connectWallet);
+
+// ==== Countdown Timer ====
+const countdown = () => {
+  const endTime = new Date("May 31, 2025 23:59:59").getTime();
+  const now = new Date().getTime();
+  const timeLeft = endTime - now;
+
+  if (timeLeft <= 0) {
+    document.getElementById("countdown").innerHTML = "Presale Ended";
     return;
   }
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const secs = Math.floor((distance % (1000 * 60)) / 1000);
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((timeLeft / (1000 * 60)) % 60);
+  const secs = Math.floor((timeLeft / 1000) % 60);
 
-  countdownEl.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-}, 1000);
+  document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+};
 
-// --- Navbar Toggle ---
-document.querySelector(".menu-toggle").addEventListener("click", () => {
-  document.getElementById("mainMenu").classList.toggle("active");
-});
+setInterval(countdown, 1000);
 
-// --- Whitepaper Slider ---
-let currentSlide = 0;
-function showSlide(index) {
-  const slides = document.querySelectorAll("#whitepaper-slider .slide");
-  slides.forEach((slide, i) => {
-    slide.style.display = i === index ? "block" : "none";
+// ==== Smooth Scroll to Sections ====
+document.querySelectorAll("a.scroll-link").forEach(link => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    const section = document.querySelector(this.getAttribute("href"));
+    section.scrollIntoView({ behavior: "smooth" });
   });
-}
-function nextSlide() {
-  const slides = document.querySelectorAll("#whitepaper-slider .slide");
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}
-function prevSlide() {
-  const slides = document.querySelectorAll("#whitepaper-slider .slide");
-  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  showSlide(currentSlide);
-}
-document.addEventListener("DOMContentLoaded", () => {
-  showSlide(currentSlide);
 });
 
-// --- Wallet Connect ---
-let provider;
-let signer;
-let currentAccount = "";
-const usdtAddress = "0x14f3d88351B5c67801895E667b51a2b8E412A26F";
-const presaleAddress = "0x14f3d88351B5c67801895E667b51a2b8E412A26F";
+// ==== Buy BHIXU Buttons (Mock Logic) ====
+document.querySelectorAll(".buy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (!userAddress) return alert("Connect your wallet first.");
+    alert("Purchase functionality coming soon. Please wait for contract integration.");
+  });
+});
 
-async function connectWallet() {
-  try {
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-    } else {
-      const walletConnectProvider = new WalletConnectProvider.default({
-        rpc: { 56: "https://bsc-dataseed.binance.org/" },
-        chainId: 56
-      });
-      await walletConnectProvider.enable();
-      provider = new ethers.providers.Web3Provider(walletConnectProvider);
-    }
+// ==== Staking Functions ====
+document.getElementById("stake-btn").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect your wallet to stake.");
+  alert("Staking BHIXU… (Smart contract integration pending)");
+});
 
-    signer = provider.getSigner();
-    currentAccount = await signer.getAddress();
-    document.getElementById("walletBalance").innerText = currentAccount;
-    initializeBotAccess();
-  } catch (error) {
-    console.error("Wallet connection failed", error);
-  }
-}
-document.getElementById("connectWallet").addEventListener("click", connectWallet);
+document.getElementById("unstake-btn").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect your wallet to unstake.");
+  alert("Unstaking BHIXU… (Smart contract integration pending)");
+});
 
-// --- Buy with BNB ---
-async function buyWithBNB() {
-  const amountBNB = prompt("Enter amount in BNB:");
-  if (!amountBNB || isNaN(amountBNB)) return alert("Invalid BNB amount.");
+document.getElementById("claim-rewards").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect wallet to claim rewards.");
+  alert("Claiming rewards… (Smart contract integration pending)");
+});
 
-  try {
-    const tx = await signer.sendTransaction({
-      to: presaleAddress,
-      value: ethers.utils.parseEther(amountBNB)
-    });
-    await tx.wait();
-    alert("BNB sent successfully! You'll get BHIKX after presale.");
-  } catch (error) {
-    console.error(error);
-    alert("Transaction failed.");
-  }
-}
-document.getElementById("buyBNB").addEventListener("click", buyWithBNB);
+// ==== Referral System ====
+document.getElementById("generate-referral").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect your wallet to generate referral.");
+  const referralLink = `${window.location.origin}?ref=${userAddress}`;
+  navigator.clipboard.writeText(referralLink);
+  alert(`Referral Link Copied:\n${referralLink}`);
+});
 
-// --- Buy with USDT ---
-const USDT_ABI = [
-  "function transfer(address to, uint amount) public returns (bool)",
-  "function approve(address spender, uint amount) public returns (bool)"
-];
+document.getElementById("apply-referral").addEventListener("click", () => {
+  const refInput = document.getElementById("referral-code").value;
+  if (!refInput) return alert("Enter a referral address.");
+  alert(`Referral code applied: ${refInput}`);
+});
 
-async function buyWithUSDT() {
-  const amountUSDT = prompt("Enter amount in USDT:");
-  if (!amountUSDT || isNaN(amountUSDT)) return alert("Invalid USDT amount.");
+// ==== Bot Launch Section Access Control ====
+function checkBotAccess() {
+  // Placeholder logic; actual stake balance check should be on-chain
+  const stakedAmount = 100; // Simulated
+  const botSection = document.getElementById("bot-section");
+  const accessMessage = document.getElementById("bot-access-message");
 
-  const amount = ethers.utils.parseUnits(amountUSDT, 18);
-  const usdt = new ethers.Contract(usdtAddress, USDT_ABI, signer);
-
-  try {
-    const tx1 = await usdt.approve(presaleAddress, amount);
-    await tx1.wait();
-    const tx2 = await usdt.transfer(presaleAddress, amount);
-    await tx2.wait();
-    alert("USDT sent successfully! You'll get BHIKX after presale.");
-  } catch (err) {
-    console.error(err);
-    alert("USDT transaction failed.");
-  }
-}
-document.getElementById("buyUSDT").addEventListener("click", buyWithUSDT);
-
-// --- Redeem Rewards (Simulated) ---
-function redeemRewards() {
-  if (!currentAccount) return alert("Connect wallet to redeem.");
-  document.getElementById("rewardBalance").innerText = "0 USDT";
-  alert("Rewards claimed! (Simulation)");
-}
-
-// --- Referral Copy ---
-function copyReferral() {
-  const link = document.getElementById("refLink");
-  link.select();
-  link.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Referral link copied!");
-}
-
-// --- Bot Key Access ---
-async function getStakedBalanceUSD() {
-  // Simulated staking check
-  return 120;
-}
-
-function copyBotKey() {
-  const botKey = document.getElementById("botKey");
-  botKey.select();
-  document.execCommand("copy");
-  alert("Bot key copied to clipboard!");
-}
-
-function launchBot() {
-  alert("Launching your bot... Key is valid!");
-}
-
-async function initializeBotAccess() {
-  const balance = await getStakedBalanceUSD(currentAccount);
-  const message = document.getElementById("bot-access-message");
-  const botUI = document.getElementById("bot-ui");
-
-  if (balance >= 100) {
-    const uniqueKey = `BHIKX-${currentAccount.slice(2, 8)}-${Math.random().toString(36).substring(2, 8)}`;
-    document.getElementById("botKey").value = uniqueKey;
-    message.innerHTML = `<span style="color: green;">Access Granted!</span>`;
-    botUI.style.display = "block";
+  if (stakedAmount >= 100) {
+    accessMessage.innerText = "Access Granted! You can download and use the bot.";
+    document.getElementById("download-bot").style.display = "inline-block";
   } else {
-    message.innerHTML = `<span style="color: red;">Stake $100+ to activate your bot.</span>`;
-    botUI.style.display = "none";
+    accessMessage.innerText = "Stake at least $100 worth of BHIXU to access the bot.";
+    document.getElementById("download-bot").style.display = "none";
   }
 }
+
+document.getElementById("check-bot-access").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect wallet to check access.");
+  checkBotAccess();
+});
+
+// ==== Airdrop Claim Placeholder ====
+document.getElementById("claim-airdrop").addEventListener("click", () => {
+  if (!userAddress) return alert("Connect wallet to claim airdrop.");
+  alert("Airdrop claim logic will be activated after smart contract deployment.");
+});
+
+// ==== Superhero & Metaverse Button Actions ====
+document.getElementById("join-superhero").addEventListener("click", () => {
+  alert("Redirecting to Superhero Registration (Coming Soon)");
+});
+
+document.getElementById("enter-metaverse").addEventListener("click", () => {
+  alert("Entering the Metaverse... (Launching soon)");
+});
+
+// ==== AutoBot Buy Button ====
+document.getElementById("buy-bot").addEventListener("click", () => {
+  alert("Bot Purchase Page Coming Soon!");
+});
