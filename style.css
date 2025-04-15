@@ -44,4 +44,3 @@ nav { display: flex; align-items: center; justify-content: space-between; paddin
 /* === Responsive Navbar === */ @media (max-width: 768px) { .menu-toggle { display: block; } .navbar-menu { display: none; flex-direction: column; background: rgba(0, 0, 0, 0.9); position: absolute; top: 60px; right: 20px; padding: 15px; border-radius: 10px; } .navbar-menu.active { display: flex; } }
 
 /* === Sticky Header Show/Hide Script === */ window.addEventListener("scroll", function () { let currentScroll = window.pageYOffset; if (this.lastScroll > currentScroll) { document.querySelector("header").style.top = "0"; } else { document.querySelector("header").style.top = "-100px"; } this.lastScroll = currentScroll; });
-
