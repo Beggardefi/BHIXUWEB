@@ -19,10 +19,25 @@ const countdownTimer = setInterval(() => {
   countdownEl.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
 }, 1000);
 
-// --- Navbar Toggle ---
+// Navbar Show/Hide on Scroll
+let prevScroll = window.pageYOffset;
+const header = document.getElementById("mainHeader");
+
+window.onscroll = () => {
+  const currentScroll = window.pageYOffset;
+  if (prevScroll > currentScroll) {
+    header.style.top = "0";
+  } else {
+    header.style.top = "-80px";
+  }
+  prevScroll = currentScroll;
+};
+
+// Hamburger Toggle
 document.querySelector(".menu-toggle").addEventListener("click", () => {
   document.getElementById("mainMenu").classList.toggle("active");
 });
+
 
 // --- Whitepaper Slider ---
 let currentSlide = 0;
