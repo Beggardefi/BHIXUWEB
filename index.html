@@ -395,5 +395,33 @@
   <div class="absolute w-72 h-72 bg-gradient-to-br from-red-500 to-yellow-400 opacity-20 rounded-full animate-pulse -top-24 -left-24 blur-2xl"></div>
   <div class="absolute w-60 h-60 bg-gradient-to-br from-yellow-400 to-red-600 opacity-20 rounded-full animate-ping top-32 right-10 blur-2xl"></div>
 </div>
+<div id="postWalletUI" style="display:none;" class="wallet-panel">
+  <h2>Welcome, <span id="walletBalance"></span></h2>
+
+  <div class="wallet-actions">
+    <button id="buyBNB" class="wallet-btn">Buy with BNB</button>
+    <button id="buyUSDT" class="wallet-btn">Buy with USDT</button>
+    <button id="redeemBtn" class="wallet-btn">Claim Airdrop</button>
+  </div>
+
+  <div class="referral-section">
+    <h3>Referral</h3>
+    <input type="text" id="refLink" readonly value="https://bhikx.com/?ref=" />
+    <button id="copyReferralBtn" class="wallet-btn small">Copy Referral Link</button>
+  </div>
+
+  <div id="bot-ui" class="bot-access">
+    <h3>Bot Access</h3>
+    <div id="bot-access-message" class="status-msg"></div>
+    <input id="botKey" readonly placeholder="Your Bot Key" />
+    <button id="copyBotKey" class="wallet-btn small">Copy Bot Key</button>
+    <button id="launchBotBtn" class="wallet-btn">Launch Bot</button>
+  </div>
+
+  <div id="staking-ui" class="staking-section">
+    <h3>Staking (Coming Soon)</h3>
+    <p>Stake BHIKX to earn rewards and unlock advanced features.</p>
+  </div>
+</div>
 </body>
 </html>
