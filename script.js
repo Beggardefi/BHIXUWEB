@@ -1,131 +1,121 @@
-// ==== Wallet Connection ====
-let userAddress = "";
+// ====== Wallet + Web3 Setup ======
+let web3;
+let bhixuContract;
+const contractAddress = "0x03Fb7952f51e0478A1D38a56F3021CFca8a739F6"; // BHIXU token
+const presaleReceiver = "0xeEe1bbe91D8613783996293ca438E5606b0874c3"; // Change this to your wallet
+
+const bhixuABI = [ /* paste your full ABI here */ ];
 
 async function connectWallet() {
   if (window.ethereum) {
     try {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      userAddress = accounts[0];
-      document.getElementById('wallet-address').innerText = `Connected: ${shortAddress(userAddress)}`;
-    } catch (err) {
-      alert("Wallet connection denied.");
+      await ethereum.request({ method: 'eth_requestAccounts' });
+      web3 = new Web3(window.ethereum);
+      bhixuContract = new web3.eth.Contract(bhixuABI, contractAddress);
+      const accounts = await web3.eth.getAccounts();
+      document.getElementById('walletAddress').innerText = `${accounts[0].slice(0,6)}...${accounts[0].slice(-4)}`;
+    } catch (error) {
+      alert('Wallet connection failed');
     }
   } else {
-    alert("Please install MetaMask or Trust Wallet.");
+    // Deep link for Trust Wallet on mobile
+    window.location.href = 'https://link.trustwallet.com/open_url?coin_id=20000714&url=' + window.location.href;
   }
 }
 
-function shortAddress(addr) {
-  return addr.slice(0, 6) + "..." + addr.slice(-4);
+// ====== BUY BHIXU WITH BNB ======
+async function buyBHIXUWithBNB(amountBNB) {
+  if (!web3) await connectWallet();
+  const accounts = await web3.eth.getAccounts();
+  const valueInWei = web3.utils.toWei(amountBNB.toString(), "ether");
+
+  try {
+    await web3.eth.sendTransaction({
+      from: accounts[0],
+      to: presaleReceiver,
+      value: valueInWei,
+    });
+    alert("Purchase successful. You will receive tokens after presale.");
+  } catch (error) {
+    console.error("Buy BNB failed:", error);
+    alert("Transaction failed.");
+  }
 }
 
-document.getElementById("connect-wallet").addEventListener("click", connectWallet);
+// ====== BUY BHIXU WITH USDT ======
+async function buyBHIXUWithUSDT(usdtAddress, amountUSDT) {
+  if (!web3) await connectWallet();
+  const accounts = await web3.eth.getAccounts();
+  const usdtContract = new web3.eth.Contract([
+    { "constant": false, "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "type": "function" }
+  ], usdtAddress);
 
-// ==== Countdown Timer ====
-const countdown = () => {
-  const endTime = new Date("May 31, 2025 23:59:59").getTime();
-  const now = new Date().getTime();
-  const timeLeft = endTime - now;
+  const decimals = 18;
+  const amount = web3.utils.toBN(amountUSDT * (10 ** decimals));
 
-  if (timeLeft <= 0) {
-    document.getElementById("countdown").innerHTML = "Presale Ended";
-    return;
+  try {
+    await usdtContract.methods.transfer(presaleReceiver, amount).send({ from: accounts[0] });
+    alert("USDT sent. You’ll receive BHIXU soon.");
+  } catch (e) {
+    console.error("USDT transfer failed", e);
+    alert("USDT transfer failed.");
   }
+}
 
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-  const mins = Math.floor((timeLeft / (1000 * 60)) % 60);
-  const secs = Math.floor((timeLeft / 1000) % 60);
+// ====== STAKING ======
+async function stakeBHIXU(amount) {
+  if (!web3) await connectWallet();
+  const accounts = await web3.eth.getAccounts();
+  const decimals = await bhixuContract.methods.decimals().call();
+  const value = web3.utils.toBN(amount * (10 ** decimals));
 
-  document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-};
+  try {
+    await bhixuContract.methods.approve(contractAddress, value).send({ from: accounts[0] });
+    // You can then send to a staking smart contract (if deployed)
+    alert("Tokens approved for staking. (Staking logic will be smart-contract based)");
+  } catch (err) {
+    alert("Staking failed.");
+    console.log(err);
+  }
+}
 
-setInterval(countdown, 1000);
-
-// ==== Smooth Scroll to Sections ====
-document.querySelectorAll("a.scroll-link").forEach(link => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-    const section = document.querySelector(this.getAttribute("href"));
-    section.scrollIntoView({ behavior: "smooth" });
-  });
-});
-
-// ==== Buy BHIXU Buttons (Mock Logic) ====
-document.querySelectorAll(".buy-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (!userAddress) return alert("Connect your wallet first.");
-    alert("Purchase functionality coming soon. Please wait for contract integration.");
-  });
-});
-
-// ==== Staking Functions ====
-document.getElementById("stake-btn").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect your wallet to stake.");
-  alert("Staking BHIXU… (Smart contract integration pending)");
-});
-
-document.getElementById("unstake-btn").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect your wallet to unstake.");
-  alert("Unstaking BHIXU… (Smart contract integration pending)");
-});
-
-document.getElementById("claim-rewards").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect wallet to claim rewards.");
-  alert("Claiming rewards… (Smart contract integration pending)");
-});
-
-// ==== Referral System ====
-document.getElementById("generate-referral").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect your wallet to generate referral.");
-  const referralLink = `${window.location.origin}?ref=${userAddress}`;
-  navigator.clipboard.writeText(referralLink);
-  alert(`Referral Link Copied:\n${referralLink}`);
-});
-
-document.getElementById("apply-referral").addEventListener("click", () => {
-  const refInput = document.getElementById("referral-code").value;
-  if (!refInput) return alert("Enter a referral address.");
-  alert(`Referral code applied: ${refInput}`);
-});
-
-// ==== Bot Launch Section Access Control ====
-function checkBotAccess() {
-  // Placeholder logic; actual stake balance check should be on-chain
-  const stakedAmount = 100; // Simulated
-  const botSection = document.getElementById("bot-section");
-  const accessMessage = document.getElementById("bot-access-message");
-
-  if (stakedAmount >= 100) {
-    accessMessage.innerText = "Access Granted! You can download and use the bot.";
-    document.getElementById("download-bot").style.display = "inline-block";
+// ====== CHECK STAKED AMOUNT FOR BOT ACCESS ======
+async function checkBotEligibility() {
+  if (!web3) await connectWallet();
+  const accounts = await web3.eth.getAccounts();
+  const balance = await bhixuContract.methods.balanceOf(accounts[0]).call();
+  const readable = web3.utils.fromWei(balance, 'ether');
+  if (parseFloat(readable) >= 100) {
+    document.getElementById('botAccess').style.display = 'block';
   } else {
-    accessMessage.innerText = "Stake at least $100 worth of BHIXU to access the bot.";
-    document.getElementById("download-bot").style.display = "none";
+    document.getElementById('botAccess').style.display = 'none';
   }
 }
 
-document.getElementById("check-bot-access").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect wallet to check access.");
-  checkBotAccess();
+// ====== REFERRAL SYSTEM ======
+function copyReferral() {
+  const referralLink = `${window.location.origin}?ref=${window.ethereum.selectedAddress}`;
+  navigator.clipboard.writeText(referralLink);
+  alert("Referral link copied!");
+}
+
+function getReferralAddress() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("ref") || null;
+}
+
+// ====== MENU SCROLLING ======
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = this.getAttribute('href');
+    document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
-// ==== Airdrop Claim Placeholder ====
-document.getElementById("claim-airdrop").addEventListener("click", () => {
-  if (!userAddress) return alert("Connect wallet to claim airdrop.");
-  alert("Airdrop claim logic will be activated after smart contract deployment.");
-});
-
-// ==== Superhero & Metaverse Button Actions ====
-document.getElementById("join-superhero").addEventListener("click", () => {
-  alert("Redirecting to Superhero Registration (Coming Soon)");
-});
-
-document.getElementById("enter-metaverse").addEventListener("click", () => {
-  alert("Entering the Metaverse... (Launching soon)");
-});
-
-// ==== AutoBot Buy Button ====
-document.getElementById("buy-bot").addEventListener("click", () => {
-  alert("Bot Purchase Page Coming Soon!");
+// ====== Initialize UI on Load ======
+window.addEventListener('load', () => {
+  getReferralAddress();
+  checkBotEligibility();
+});chase Page Coming Soon!");
 });
