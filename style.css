@@ -1,4 +1,8 @@
 :root {
+  --gold: #ffd700;
+  --red: #ff0000;
+}
+:root {
   --gold: #FFD700;
   --red: red;
   --dark: #111;
@@ -1020,6 +1024,22 @@ form button:hover {
   border-top: 2px solid gold;
   border-bottom: 2px solid gold;
 }
+@media (max-width: 768px) {
+  .how-to-buy-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .buy-text {
+    max-width: 100%;
+  }
+  .buy-image {
+    position: static;
+    margin-top: 40px;
+    width: 250px;
+    height: auto;
+  }
+}
 
 .buy-text {
   flex: 1;
@@ -1063,7 +1083,11 @@ form button:hover {
   box-shadow: 0 0 20px gold;
   transition: all 0.3s ease;
   animation: pulse 1.5s infinite;
+a:hover, a:focus, button:hover, button:focus 
+  outline: none;
+  box-shadow: 0 0 8px gold;
 }
+
 
 .buy-now-btn:hover {
   background: #ffcc00;
@@ -1164,16 +1188,6 @@ form button:hover {
   50% { text-shadow: 0 0 20px orange; }
   100% { text-shadow: 0 0 10px gold; }
 }
-.tokenomics-section {
-  padding: 80px 20px;
-  background: rgba(0, 0, 0, 0.85);
-  background-image: url('/images/tokenomics-bg.webp');
-  background-size: cover;
-  background-position: center;
-  color: gold;
-  overflow: hidden;
-}
-
 .token-chart-container {
   display: flex;
   flex-direction: row;
@@ -1310,6 +1324,9 @@ form button:hover {
   background: #ff0000;
   color: black;
   box-shadow: 0 0 10px red;
+  a:hover, a:focus, button:hover, button:focus 
+  outline: none;
+  box-shadow: 0 0 8px gold;
 }
 @media (max-width: 600px) {
   h1 {
@@ -1380,11 +1397,17 @@ button:focus, a:focus {
   overflow: hidden;
 }
 .tokenomics-section {
-  background: #0c0c0c;
-  padding: 60px 20px;
   color: #fff;
   font-family: 'Poppins', sans-serif;
+  padding: 80px 20px;
+  background: rgba(0, 0, 0, 0.85);
+  background-image: url('/images/tokenomics-bg.webp');
+  background-size: cover;
+  background-position: center;
+  color: gold;
+  overflow: hidden;
 }
+
 
 .tokenomics-section .section-title {
   font-size: 2.5em;
@@ -1426,4 +1449,8 @@ button:focus, a:focus {
   font-weight: bold;
   color: #ffd700;
   border-bottom: 2px solid #ffd700;
+}
+.text-glow {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700, 0 0 20px #ff0000;
 }
