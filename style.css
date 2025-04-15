@@ -1470,3 +1470,33 @@ button:focus, a:focus {
 body {
   animation: fadeIn 1.5s ease-in;
 }
+/* Desktop adjustments for Navbar */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .navbar-menu {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    position: static;
+    background: none;
+    padding: 0;
+  }
+
+  .navbar-menu a {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+  }
+}
