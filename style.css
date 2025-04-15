@@ -1,10 +1,11 @@
-:root {
-  --gold: #ffd700;
-  --red: #ff0000;
+body {
+  padding-top: 80px; /* adjust based on header height */
 }
+
 :root {
   --gold: #FFD700;
   --red: red;
+    --red: #ff0000;
   --dark: #111;
   --blackish: rgba(0, 0, 0, 0.8);
 }
@@ -1453,4 +1454,19 @@ button:focus, a:focus {
 .text-glow {
   color: #ffd700;
   text-shadow: 0 0 10px #ffd700, 0 0 20px #ff0000;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gold;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+body {
+  animation: fadeIn 1.5s ease-in;
 }
