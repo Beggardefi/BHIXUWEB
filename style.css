@@ -1502,3 +1502,75 @@ body {
     color: #fff;
   }
 }
+.wallet-panel {
+  background: #111;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.wallet-panel h2,
+.wallet-panel h3 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #0ff;
+}
+
+.wallet-actions,
+.referral-section,
+.bot-access,
+.staking-section {
+  margin-bottom: 2rem;
+}
+
+.wallet-btn {
+  background: #0ff;
+  color: #000;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  margin: 0.5rem;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.wallet-btn:hover {
+  background: #00cfcf;
+}
+
+.wallet-btn.small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.wallet-panel input[type="text"],
+.wallet-panel input[readonly] {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  margin-bottom: 1rem;
+  background: #222;
+  color: #0ff;
+  font-family: monospace;
+}
+
+.status-msg {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .wallet-actions {
+    display: flex;
+    flex-direction: column;
+  }
+  .wallet-btn {
+    width: 100%;
+    margin: 0.3rem 0;
+  }
+}
