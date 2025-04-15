@@ -81,6 +81,11 @@
     <p id="progress-text">Raised: $25,000 / Target: $300,000</p>
   </div>
 </section>
+<div id="walletPanel" class="wallet-panel">
+  <p><strong>Wallet:</strong> <span id="walletAddress">Not Connected</span></p>
+  <p><strong>BNB Balance:</strong> <span id="bnbBalance">-</span></p>
+  <p><strong>USDT Balance:</strong> <span id="usdtBalance">-</span></p>
+</div>
 </section>
     
     
@@ -293,7 +298,15 @@
   <button id="stakeBtn" class="btn-secondary">Stake BHIKX</button>
   <button id="redeemBtn" onclick="redeemRewards()" class="btn-primary">Redeem Rewards</button>
 </div>
-
+<div class="staking-panel">
+  <h3>Stake BHIXU</h3>
+  <input type="number" id="stakeAmount" placeholder="Amount to stake" />
+  <button id="stakeBtn">Stake Now</button>
+  <p>Staked: <span id="stakedAmount">0</span> BHIXU</p>
+  <p>Rewards: <span id="rewardAmount">0</span> BHIXU</p>
+  <button id="claimStakingReward">Claim Reward</button>
+  <button id="unstakeBtn">Unstake</button>
+</div>
 <style>
   .btn-stake {
     @apply bg-green-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-green-500 shadow hover:scale-105 transition;
@@ -328,6 +341,15 @@
 </style>
     <p class="note">*Key access is suspended if you unstake your BHIKX below $100.</p>
   </div>
+<div class="bot-access">
+  <h3>Bot Access Key</h3>
+  <p id="bot-access-message">Checking access...</p>
+  <div id="bot-ui" style="display: none;">
+    <input type="text" id="botKey" readonly />
+    <button id="copyBotKey">Copy Key</button>
+    <button id="launchBotBtn">Launch Bot</button>
+  </div>
+</div>
 </section>
 
     <!-- Referral -->
@@ -345,8 +367,18 @@
     @apply bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold px-6 py-2 rounded-full hover:from-blue-400 hover:to-cyan-300 transition transform hover:scale-105;
   }
 </style>
+<div class="referral-section">
+  <h3>Your Referral Link</h3>
+  <input type="text" id="refLink" value="" readonly />
+  <button id="copyReferralBtn">Copy Referral</button>
+</div>
     </section>
-
+<div class="airdrop-claim">
+  <h3>Claim Airdrop</h3>
+  <button id="claimAirdropBtn">Claim Airdrop</button>
+  <p>Status: <span id="airdropStatus">Not Claimed</span></p>
+</div>
+ </section
     <!-- FAQ -->
     <section id="faq" class="panel">
       <h2>FAQ</h2>
