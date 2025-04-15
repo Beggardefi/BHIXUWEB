@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
 // --- Countdown Timer ---
 const countdownEl = document.getElementById("countdown");
 const presaleEndDate = new Date("2025-06-30T23:59:59").getTime();
