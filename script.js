@@ -191,3 +191,58 @@ async function initializeBotAccess() {
     botUI.style.display = "none";
   }
 }
+function checkWalletConnected() {
+  if (!currentAccount) {
+    alert("Please connect your wallet first.");
+    return false;
+  }
+  return true;
+}
+
+async function buyWithBNB() {
+  if (!checkWalletConnected()) return;
+
+  const amountBNB = prompt("Enter amount in BNB:");
+  if (!amountBNB || isNaN(amountBNB)) return alert("Invalid BNB amount.");
+
+  try {
+    const tx = await signer.sendTransaction({
+      to: presaleAddress,
+      value: ethers.utils.parseEther(amountBNB)
+    });
+    await tx.wait();
+    alert("BNB sent successfully! You'll get BHIKX after presale.");
+  } catch (error) {
+    console.error(error);
+    alert("Transaction failed.");
+  }
+}
+
+async function buyWithUSDT() {
+  if (!checkWalletConnected()) return;
+
+  const amountUSDT = prompt("Enter amount in USDT:");
+  if (!amountUSDT || isNaN(amountUSDT)) return alert("Invalid USDT amount.");
+
+  const amount = ethers.utils.parseUnits(amountUSDT, 18);
+  const usdt = new ethers.Contract(usdtAddress, USDT_ABI, signer);
+
+  try {
+    const tx1 = await usdt.approve(presaleAddress, amount);
+    await tx1.wait();
+    const tx2 = await usdt.transfer(presaleAddress, amount);
+    await tx2.wait();
+    alert("USDT sent successfully! You'll get BHIKX after presale.");
+  } catch (err) {
+    console.error(err);
+    alert("USDT transaction failed.");
+  }
+function showPostWalletUI() {
+  document.getElementById("postWalletUI").style.display = "block";
+  document.getElementById("connectWallet").style.display = "none";
+}
+
+currentAccount = await signer.getAddress();
+document.getElementById("walletBalance").innerText = currentAccount;
+initializeBotAccess();
+showPostWalletUI(); // <-- Add this
