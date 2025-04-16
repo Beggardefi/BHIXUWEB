@@ -246,4 +246,266 @@ nav {
 /* === Panels === */
 .panel, .golden-panel {
   padding: 5rem 2rem;
-  background: rgba(10, 10, 10, 0
+  background: rgba(10, 10, 10, 0.8);
+  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
+  animation: fadeIn 2s ease;
+}
+
+.golden-panel {
+  border: 4px solid gold;
+  border-radius: 20px;
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+.golden-panel::before {
+  content: "👑";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: gold;
+  padding: 0 10px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+.panel h2, .golden-panel h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: gold;
+  text-align: center;
+  text-shadow: 0 0 10px red;
+}
+
+.panel p, .panel ol, .panel li, .golden-panel p, .golden-panel ol, .golden-panel li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin: 0.5rem 0;
+}
+
+/* === Buttons (Presale) === */
+.buy-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.buy-buttons button {
+  background: linear-gradient(45deg, red, gold);
+  color: black;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 15px gold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.buy-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px red;
+}
+
+/* === Progress Bar === */
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress {
+  height: 100%;
+  background: gold;
+  width: 25%; /* Initial width - will likely be updated by JS */
+  animation: progressGrow 2s ease forwards;
+}
+
+@keyframes progressGrow {
+  from { width: 0%; }
+  to { width: 25%; } /* Ensure this matches the initial width */
+}
+
+/* === How to Buy Section === */
+.how-to-buy-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #000, #111);
+  padding: 80px 40px;
+  color: gold;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid gold;
+  border-bottom: 2px solid gold;
+}
+@media (max-width: 768px) {
+  .how-to-buy-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .buy-text {
+    max-width: 100%;
+  }
+  .buy-image {
+    position: static;
+    margin-top: 40px;
+    width: 250px;
+    height: auto;
+  }
+}
+
+.buy-text {
+  flex: 1;
+  max-width: 60%;
+  animation: fadeInLeft 1.5s ease-in-out;
+  z-index: 2;
+}
+
+@keyframes fadeInLeft {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.buy-text h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #ffd700;
+}
+
+.buy-text p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.buy-steps {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 30px;
+}
+
+.buy-steps li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #eee;
+}
+
+.buy-now-btn {
+  padding: 15px 30px;
+  font-size: 18px;
+  background: gold;
+  color: black;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 20px gold;
+  transition: all 0.3s ease;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px gold; }
+  50% { box-shadow: 0 0 20px red; }
+  100% { box-shadow: 0 0 10px gold; }
+}
+
+.buy-now-btn:hover, .buy-now-btn:focus {
+  outline: none;
+  box-shadow: 0 0 8px gold;
+  background: #ffcc00;
+  color: black;
+  box-shadow: 0 0 30px #ffcc00;
+}
+
+.buy-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  max-width: 100%;
+  height: 75%;
+  position: absolute;
+  right: 30px;
+  bottom: 150px;
+  z-index: 1; /* Lower than text */
+}
+
+.buy-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* === Whitepaper Highlights === */
+#whitepaper .whitepaper-heading {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: gold;
+}
+
+.slider-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  text-align: center;
+}
+
+.slide h3 {
+  font-size: 1.8rem;
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.typing-text {
+  font-size: 1.1rem;
+  color: #ccc;
+  animation: typing 3s steps(40, end);
+  white-space: normal;
+  overflow: hidden;
+  border-right: 2px solid #FFD700;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+.slide-image, .slide-video {
+  margin-top: 20px;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
