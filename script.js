@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
 let provider;
 let signer;
 let currentAccount = "";
-const usdtAddress = "0x14f3d88351B5c67801895E667b51a2b8E412A26F";
-const presaleAddress = "0x14f3d88351B5c67801895E667b51a2b8E412A26F";
+const usdtAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+const presaleContractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
 
 async function connectWallet() {
   try {
@@ -95,50 +95,52 @@ async function connectWallet() {
 document.getElementById("connectWallet").addEventListener("click", connectWallet);
 
 // --- Buy with BNB ---
+const presaleContractABI = [
+  "function contributeBNB() public payable",
+  "function contributeUSDT(uint256 amount) external",
+];
+
 async function buyWithBNB() {
+  if (!checkWalletConnected()) return;
+
   const amountBNB = prompt("Enter amount in BNB:");
   if (!amountBNB || isNaN(amountBNB)) return alert("Invalid BNB amount.");
 
   try {
     const tx = await signer.sendTransaction({
-      to: presaleAddress,
+      to: presaleContractAddress,
       value: ethers.utils.parseEther(amountBNB)
     });
     await tx.wait();
-    alert("BNB sent successfully! You'll get BHIKX after presale.");
+    alert("BNB contributed successfully!");
   } catch (error) {
     console.error(error);
     alert("Transaction failed.");
   }
 }
-document.getElementById("buyBNB").addEventListener("click", buyWithBNB);
 
 // --- Buy with USDT ---
-const USDT_ABI = [
-  "function transfer(address to, uint amount) public returns (bool)",
-  "function approve(address spender, uint amount) public returns (bool)"
-];
-
 async function buyWithUSDT() {
+  if (!checkWalletConnected()) return;
+
   const amountUSDT = prompt("Enter amount in USDT:");
   if (!amountUSDT || isNaN(amountUSDT)) return alert("Invalid USDT amount.");
 
   const amount = ethers.utils.parseUnits(amountUSDT, 18);
+  const presale = new ethers.Contract(presaleContractAddress, presaleContractABI, signer);
   const usdt = new ethers.Contract(usdtAddress, USDT_ABI, signer);
 
   try {
-    const tx1 = await usdt.approve(presaleAddress, amount);
+    const tx1 = await usdt.approve(presaleContractAddress, amount);
     await tx1.wait();
-    const tx2 = await usdt.transfer(presaleAddress, amount);
+    const tx2 = await presale.contributeUSDT(amount);
     await tx2.wait();
-    alert("USDT sent successfully! You'll get BHIKX after presale.");
+    alert("USDT contributed successfully!");
   } catch (err) {
     console.error(err);
-    alert("USDT transaction failed.");
+    alert("USDT contribution failed.");
   }
 }
-document.getElementById("buyUSDT").addEventListener("click", buyWithUSDT);
-
 // --- Redeem Rewards (Simulated) ---
 function redeemRewards() {
   if (!currentAccount) return alert("Connect wallet to redeem.");
