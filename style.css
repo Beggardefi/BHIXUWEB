@@ -83,51 +83,57 @@ nav a:hover::before {
   width: 100%;
 }
 
-/* Hero */
-.hero {
+/* Hero */.hero {
   position: relative;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 80px;
-  overflow: hidden;
   text-align: center;
-  z-index: 1;
-  color: #fff;
+  background: transparent;
 }
 
-/* Background video full-screen and fixed */
-.hero #heroVideo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  object-fit: cover;
-  z-index: -1;
-  opacity: 0.8;
-  pointer-events: none;
-}
-
-/* Hero content overlays the video */
-.hero-content {
+.hero-container {
   position: relative;
   z-index: 2;
   padding: 2rem;
+  border: 4px solid var(--gold);
+  border-radius: 20px;
+  max-width: 1100px;
+  width: 90%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
   animation: fadeInUp 1.5s ease forwards;
-  backdrop-filter: brightness(1.1);
 }
 
-/* Enhanced heading with animation */
+/* Restrict video to hero section only */
+#heroVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+}
+
 .hero-content h1 {
   font-size: 3rem;
+  color: #fff;
   text-shadow: 2px 2px 10px var(--red);
   animation: glowText 2s ease-in-out infinite alternate;
 }
 
-/* Subheading */
 .hero-content p {
   font-size: 1.3rem;
   margin: 1rem 0;
@@ -135,7 +141,6 @@ nav a:hover::before {
   text-shadow: 1px 1px 6px var(--gold);
 }
 
-/* Call to Action Button */
 .btn {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -145,6 +150,7 @@ nav a:hover::before {
   font-weight: bold;
   text-decoration: none;
   transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
 }
 
 .btn:hover {
@@ -153,17 +159,15 @@ nav a:hover::before {
   transform: scale(1.05);
 }
 
-/* Optional image below text */
 .hero-img {
   margin-top: 2rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  z-index: 2;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Text animation */
+/* Animations */
 @keyframes glowText {
   from {
     text-shadow: 0 0 5px var(--red), 0 0 10px var(--gold);
@@ -173,7 +177,6 @@ nav a:hover::before {
   }
 }
 
-/* Fade in on load */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -185,7 +188,7 @@ nav a:hover::before {
   }
 }
 
-/* Mobile responsive adjustments */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .hero-content h1 {
     font-size: 2rem;
@@ -197,6 +200,11 @@ nav a:hover::before {
 
   .btn {
     padding: 0.6rem 1.2rem;
+  }
+
+  .hero-img {
+    max-width: 90%;
+    margin-top: 1.5rem;
   }
 }
 
