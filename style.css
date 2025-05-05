@@ -97,15 +97,13 @@ nav {
   transition: 0.4s ease-in-out;
 }
 
-.menu-toggle.active span:nth-child(1) {
+.menu-toggle.open span:nth-child(1) {
   transform: rotate(45deg) translate(7px, 8px);
 }
-
-.menu-toggle.active span:nth-child(2) {
+.menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
-
-.menu-toggle.active span:nth-child(3) {
+.menu-toggle.open span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -8px);
 }
 
@@ -161,11 +159,14 @@ nav a:hover::before {
     padding: 1.5rem;
     text-align: center;
     box-shadow: 0 8px 16px var(--shadow-color);
+    z-index: 99;
   }
 
-  nav ul.show {
+  nav ul.active {
     display: flex;
   }
+}
+
 
   nav ul li {
     margin: 1rem 0;
@@ -177,6 +178,11 @@ nav a:hover::before {
 }
 
 /* Hero Section with Golden Frame and Animation */
+.hero {
+  padding-top: 120px; /* adjust based on your header height */
+  position: relative;
+  z-index: 1;
+}
 .hero {
   position: relative;
   display: flex;
