@@ -3,6 +3,7 @@
   --red: #FF4D4D;
   --light: #ffffff;
   --shadow-color: rgba(0, 0, 0, 0.4);
+  --black: #000000;
 }
 
 /* Reset & Base */
@@ -15,21 +16,20 @@ html, body {
   height: 100%;
   font-family: 'Poppins', sans-serif;
   color: var(--light);
-  background: #000;
-  overflow-x: hidden;
+  background: var(--black);
+  overflow: hidden;
 }
 
 /* Background Video */
 #backgroundVideo {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover !important;
-  z-index: -10; /* Ensure it's in the background */
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1; /* Video stays in the background */
 }
-
 
 /* Navbar */
 header {
@@ -41,10 +41,9 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 10; /* Navbar above the video and content */
   background: rgba(0, 0, 0, 0.85);
   border-bottom: 2px solid var(--gold);
-  transition: top 0.4s ease;
 }
 
 .logo {
@@ -108,16 +107,15 @@ nav a:hover {
   justify-content: center;
   min-height: 100vh;
   padding: 120px 20px 80px;
-  z-index: 10; /* Place it above the video */
-  position: relative; /* Establish stacking context */
-  background: rgba(0, 0, 0, 0.6); /* Add a semi-transparent background for visibility */
+  z-index: 1; /* Ensure hero is above the video */
+  position: relative;
 }
 
 .hero-container {
   max-width: 1000px;
   width: 100%;
   padding: 2.5rem;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for visibility */
   border: 2px solid var(--gold);
   border-radius: 20px;
   text-align: center;
@@ -126,6 +124,7 @@ nav a:hover {
 
 .hero-content h1 {
   font-size: 2.8rem;
+  color: var(--light);
   text-shadow: 0 0 10px var(--red);
   animation: glowText 2s infinite alternate;
 }
@@ -177,7 +176,6 @@ footer {
   padding: 2rem;
   color: var(--light);
   text-align: center;
-  transition: bottom 0.4s ease;
 }
 
 .footer-links,
