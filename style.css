@@ -13,27 +13,28 @@
   box-sizing: border-box;
 }
 
-html, body {
+body, html {
+  height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background: #000;
   color: var(--light);
+  background: #000;
   overflow-x: hidden;
-  min-height: 100%;
 }
 
 /* Navbar */
 header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 999;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: rgba(0, 0, 0, 0.85);
   border-bottom: 2px solid var(--gold);
+  transition: top 0.4s ease;
 }
 
 .logo {
@@ -46,8 +47,8 @@ header {
 .menu-toggle {
   display: none;
   flex-direction: column;
-  gap: 6px;
   cursor: pointer;
+  gap: 6px;
 }
 
 .menu-toggle span {
@@ -66,6 +67,7 @@ nav a {
   color: var(--light);
   text-decoration: none;
   font-weight: 600;
+  position: relative;
 }
 
 nav a:hover {
@@ -79,45 +81,42 @@ nav a:hover {
     position: absolute;
     top: 60px;
     left: 0;
+    background: #000;
     width: 100%;
     flex-direction: column;
-    background: #000;
     text-align: center;
   }
   nav ul.show { display: flex; }
 }
 
-/* Background Video */
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 100vh;
+  padding-top: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
 #heroVideo {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
   object-fit: cover;
-  z-index: -1;
-}
-
-/* Hero Section */
-.hero {
-  position: relative;
-  padding-top: 100px; /* navbar space */
-  padding-bottom: 4rem; /* space for footer visibility */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 100px);
-  z-index: 1;
+  z-index: -2;
 }
 
 .hero-container {
   background-color: rgba(0, 0, 0, 0.6);
+  padding: 3rem;
   border: 3px solid var(--gold);
   border-radius: 16px;
-  padding: 3rem;
   text-align: center;
   max-width: 900px;
-  width: 90%;
   margin: auto;
   animation: fadeInUp 1.5s ease forwards;
 }
@@ -131,8 +130,8 @@ nav a:hover {
 
 .hero-content p {
   font-size: 1.2rem;
-  margin-bottom: 1.5rem;
   color: var(--light);
+  margin-bottom: 1.5rem;
   text-shadow: 1px 1px 6px var(--gold);
 }
 
@@ -143,7 +142,7 @@ nav a:hover {
   border-radius: 30px;
   font-weight: bold;
   text-decoration: none;
-  transition: background 0.3s ease;
+  transition: 0.3s;
 }
 
 .btn:hover {
@@ -152,56 +151,13 @@ nav a:hover {
 }
 
 .hero-img {
-  margin-top: 2rem;
   width: 100%;
   max-width: 400px;
+  margin-top: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 15px var(--shadow-color);
 }
 
-/* Footer */
-footer {
-  background: #111;
-  padding: 2rem 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  margin-top: 2rem;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 1rem;
-}
-
-.footer-links a {
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-top: 0.5rem;
-}
-
-.social-icons a {
-  color: var(--gold);
-  font-size: 1.4rem;
-  transition: 0.3s ease;
-}
-
-.social-icons a:hover {
-  color: var(--red);
-  transform: scale(1.2);
-}
-
-/* Animations */
 @keyframes glowText {
   from {
     text-shadow: 0 0 5px var(--red);
@@ -212,12 +168,44 @@ footer {
 }
 
 @keyframes fadeInUp {
-  from {
+  0% {
     opacity: 0;
     transform: translateY(60px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Footer */
+footer {
+  background: #111;
+  padding: 2rem;
+  color: var(--light);
+  text-align: center;
+}
+
+.footer-links,
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-links a,
+.footer-social a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.footer-social i {
+  font-size: 1.4rem;
+  transition: transform 0.3s ease;
+}
+
+.footer-social i:hover {
+  transform: scale(1.2);
+  color: var(--red);
 }
