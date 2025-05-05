@@ -3,6 +3,7 @@
   --red: #FF4D4D;
   --light: #ffffff;
   --shadow-color: rgba(0, 0, 0, 0.4);
+   scroll-padding-top: 120px; /* helps with internal nav links too */
 }
 
 body, html {
@@ -26,9 +27,10 @@ body, html {
 
 /* Hero Section */
 .hero {
+  height: 80px;
   width: 100%;
   min-height: 100vh;
-  padding-top: 100px;
+  padding-top: 120px; /* enough space to clear fixed header */
   padding-bottom: 50px;
   display: flex;
   align-items: center;
