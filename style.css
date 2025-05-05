@@ -17,7 +17,9 @@ html, body {
   font-family: 'Poppins', sans-serif;
   color: var(--light);
   background: var(--black);
-  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling */
 }
 
 /* Background Video */
@@ -44,6 +46,7 @@ header {
   z-index: 10; /* Navbar above the video and content */
   background: rgba(0, 0, 0, 0.85);
   border-bottom: 2px solid var(--gold);
+  transition: top 0.4s ease;
 }
 
 .logo {
@@ -126,7 +129,7 @@ nav a:hover {
   font-size: 2.8rem;
   color: var(--light);
   text-shadow: 0 0 10px var(--red);
-  animation: glowText 2s infinite alternate;
+  animation: glowText 2.5s infinite alternate ease-in-out; /* Smooth animation */
 }
 
 .hero-content p {
