@@ -30,7 +30,8 @@ html, body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -1; /* Video stays in the background */
+  z-index: -1; /* Ensure the video stays in the background */
+  pointer-events: none; /* Prevent the video from interfering with interactions */
 }
 
 /* Navbar */
