@@ -1,3 +1,8 @@
+const video = document.getElementById('backgroundVideo');
+video.play().catch(() => {
+  console.log('Autoplay blocked. User interaction required.');
+});
+
 // Toggle mobile navbar
 const menuToggle = document.getElementById("menuToggle");
 const mainMenu = document.getElementById("mainMenu");
@@ -27,3 +32,4 @@ window.addEventListener("scroll", () => {
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
+
