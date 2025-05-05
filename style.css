@@ -144,10 +144,6 @@ nav a:hover::before {
 }
 
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
-
   nav ul {
     display: none;
     position: absolute;
@@ -166,8 +162,6 @@ nav a:hover::before {
     display: flex;
   }
 }
-
-
   nav ul li {
     margin: 1rem 0;
   }
@@ -179,10 +173,9 @@ nav a:hover::before {
 
 /* Hero Section with Golden Frame and Animation */
 .hero {
-  padding-top: 120px; /* adjust based on your header height */
-  position: relative;
-  z-index: 1;
+  padding-top: 80px; /* Adjust this value based on your navbar's height */
 }
+
 .hero {
   position: relative;
   display: flex;
